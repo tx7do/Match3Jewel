@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour
 {
-
     public static GameController action;
 
     public static float DROP_SPEED = 8;
@@ -15,6 +14,7 @@ public class GameController : MonoBehaviour
     public int CellNotEmpty;
 
     public GameObject Selector;
+
     public enum Power
     {
         BOOM = 1,
@@ -46,6 +46,7 @@ public class GameController : MonoBehaviour
     private GameObject Selected;
 
     bool ishold;
+
     void Awake()
     {
         action = this;
@@ -53,7 +54,6 @@ public class GameController : MonoBehaviour
 
     IEnumerator Start()
     {
-
         if (PLayerInfo.MODE == 1)
             StartCoroutine(GribManager.cell.GribMapCreate(PLayerInfo.MapPlayer.Name));
         else
@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         StartCoroutine(EffectSpawner.effect.ComboTick());
         Timer.timer.TimeTick(true);
-        GameState = (int)Timer.GameState.PLAYING;
+        GameState = (int) Timer.GameState.PLAYING;
         NoSelect.SetActive(false);
     }
 
@@ -70,6 +70,7 @@ public class GameController : MonoBehaviour
         JewelSelecter();
         backpress();
     }
+
     //process click action
     void JewelSelecter()
     {
@@ -115,6 +116,7 @@ public class GameController : MonoBehaviour
             ishold = false;
         }
     }
+
     //check distance between 2 object
     bool DistanceChecker(GameObject obj1, GameObject obj2)
     {
@@ -127,16 +129,18 @@ public class GameController : MonoBehaviour
 
         return false;
     }
+
     //check logic game
     public void RuleChecker(GameObject obj1, GameObject obj2)
     {
         JewelObj Jewel1 = obj1.GetComponent<JewelObj>();
         JewelObj Jewel2 = obj2.GetComponent<JewelObj>();
-        List<JewelObj> NeiObj1 = Ulti.ListPlus(Jewel1.GetCollumn(Jewel2.jewel.JewelPosition, Jewel1.jewel.JewelType, null),
-                                         Jewel1.GetRow(Jewel2.jewel.JewelPosition, Jewel1.jewel.JewelType, null), Jewel1);
-        List<JewelObj> NeiObj2 = Ulti.ListPlus(Jewel2.GetCollumn(Jewel1.jewel.JewelPosition, Jewel2.jewel.JewelType, null),
-                                         Jewel2.GetRow(Jewel1.jewel.JewelPosition, Jewel2.jewel.JewelType, null), Jewel2);
-
+        List<JewelObj> NeiObj1 = Ulti.ListPlus(
+            Jewel1.GetCollumn(Jewel2.jewel.JewelPosition, Jewel1.jewel.JewelType, null),
+            Jewel1.GetRow(Jewel2.jewel.JewelPosition, Jewel1.jewel.JewelType, null), Jewel1);
+        List<JewelObj> NeiObj2 = Ulti.ListPlus(
+            Jewel2.GetCollumn(Jewel1.jewel.JewelPosition, Jewel2.jewel.JewelType, null),
+            Jewel2.GetRow(Jewel1.jewel.JewelPosition, Jewel2.jewel.JewelType, null), Jewel2);
 
 
         if (Jewel1.jewel.JewelType == 99 || Jewel2.jewel.JewelType == 99)
@@ -163,15 +167,16 @@ public class GameController : MonoBehaviour
 
     void backpress()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && GameState == (int)Timer.GameState.PLAYING)
+        if (Input.GetKeyDown(KeyCode.Escape) && GameState == (int) Timer.GameState.PLAYING)
         {
             Timer.timer.Pause();
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && GameState == (int)Timer.GameState.PAUSE)
+        else if (Input.GetKeyDown(KeyCode.Escape) && GameState == (int) Timer.GameState.PAUSE)
         {
             Timer.timer.Resume();
         }
     }
+
     void JewelProcess(List<JewelObj> list1, List<JewelObj> list2, GameObject obj1, GameObject obj2)
     {
         int c1 = list1.Count;
@@ -197,8 +202,8 @@ public class GameController : MonoBehaviour
             PDestroyType(obj1.GetComponent<JewelObj>().jewel.JewelType, obj1.transform.position);
             obj2.GetComponent<JewelObj>().Destroy();
         }
-
     }
+
     public void JewelProcess(List<JewelObj> list1, GameObject obj1)
     {
         int c1 = list1.Count;
@@ -206,7 +211,6 @@ public class GameController : MonoBehaviour
         {
             ListProcess(list1, obj1, null, obj1.GetComponent<JewelObj>().jewel.JewelType);
         }
-
     }
 
     bool ListProcess(List<JewelObj> list, GameObject obj, GameObject obj1, int type)
@@ -234,14 +238,14 @@ public class GameController : MonoBehaviour
         }
         else if (c == 4)
         {
-            ReGroup(list, type, (int)Power.BOOM, v);
+            ReGroup(list, type, (int) Power.BOOM, v);
             DestroyRandom();
             EffectSpawner.effect.ComBoInc();
             dropjewel();
         }
         else if (c >= 5)
         {
-            ReGroup(list, 8, (int)Power.MAGIC, v);
+            ReGroup(list, 8, (int) Power.MAGIC, v);
             EffectSpawner.effect.ComBoInc();
             DestroyRandom();
             DestroyRandom();
@@ -250,11 +254,13 @@ public class GameController : MonoBehaviour
 
         return true;
     }
+
     void dropjewel()
     {
         drop.DELAY = DROP_DELAY;
         drop.enabled = true;
     }
+
     void DestroyJewel(List<JewelObj> list)
     {
         SoundController.Sound.JewelCrash();
@@ -264,6 +270,7 @@ public class GameController : MonoBehaviour
             item.Destroy();
         }
     }
+
     void ReGroup(List<JewelObj> list, int type, int power, Vector2 pos)
     {
         SoundController.Sound.JewelCrash();
@@ -272,6 +279,7 @@ public class GameController : MonoBehaviour
         {
             item.ReGroup(pos);
         }
+
         StartCoroutine(SpawnJewelPower(type, power, pos));
     }
 
@@ -283,8 +291,10 @@ public class GameController : MonoBehaviour
         {
             return Physics2D.OverlapPoint(touchPos).gameObject;
         }
+
         return null;
     }
+
     //swap map jewel position
     void SwapJewelPosition(GameObject jewel1, GameObject jewel2)
     {
@@ -295,20 +305,21 @@ public class GameController : MonoBehaviour
         tmp1.jewel.JewelPosition = tmp2.jewel.JewelPosition;
         tmp2.jewel.JewelPosition = tmp;
 
-        GameObject Objtmp = JewelSpawner.spawn.JewelGrib[(int)tmp1.jewel.JewelPosition.x, (int)tmp1.jewel.JewelPosition.y];
-        JewelSpawner.spawn.JewelGrib[(int)tmp1.jewel.JewelPosition.x, (int)tmp1.jewel.JewelPosition.y] = jewel2;
-        JewelSpawner.spawn.JewelGrib[(int)tmp2.jewel.JewelPosition.x, (int)tmp2.jewel.JewelPosition.y] = Objtmp;
+        GameObject Objtmp =
+            JewelSpawner.spawn.JewelGrib[(int) tmp1.jewel.JewelPosition.x, (int) tmp1.jewel.JewelPosition.y];
+        JewelSpawner.spawn.JewelGrib[(int) tmp1.jewel.JewelPosition.x, (int) tmp1.jewel.JewelPosition.y] = jewel2;
+        JewelSpawner.spawn.JewelGrib[(int) tmp2.jewel.JewelPosition.x, (int) tmp2.jewel.JewelPosition.y] = Objtmp;
 
         JewelObj scripttmp = tmp1;
-        JewelSpawner.spawn.JewelGribScript[(int)tmp2.jewel.JewelPosition.x, (int)tmp2.jewel.JewelPosition.y] = tmp2;
-        JewelSpawner.spawn.JewelGribScript[(int)tmp1.jewel.JewelPosition.x, (int)tmp1.jewel.JewelPosition.y] = scripttmp;
+        JewelSpawner.spawn.JewelGribScript[(int) tmp2.jewel.JewelPosition.x, (int) tmp2.jewel.JewelPosition.y] = tmp2;
+        JewelSpawner.spawn.JewelGribScript[(int) tmp1.jewel.JewelPosition.x, (int) tmp1.jewel.JewelPosition.y] =
+            scripttmp;
         if (tmp1.jewel.JewelType == 99 || tmp2.jewel.JewelType == 99)
             WinChecker();
-
     }
+
     IEnumerator SpawnJewelPower(int type, int power, Vector2 pos)
     {
-
         yield return new WaitForSeconds(0.4f);
         GameObject tmp = JewelSpawner.spawn.SpawnJewelPower(type, power, pos);
         yield return new WaitForSeconds(0.2f);
@@ -328,8 +339,6 @@ public class GameController : MonoBehaviour
 
         if (y + 1 < 9 && GribManager.cell.GribCellObj[x, y + 1] != null)
             GribManager.cell.GribCellObj[x, y + 1].RemoveEffect();
-
-
     }
 
     public void PDestroyRow(int _x, int y)
@@ -342,21 +351,27 @@ public class GameController : MonoBehaviour
         {
             if (_x != x)
             {
-                if (GribManager.cell.GribCellObj[x, y] != null && GribManager.cell.GribCellObj[x, y].cell.CellEffect > 0)
+                if (GribManager.cell.GribCellObj[x, y] != null &&
+                    GribManager.cell.GribCellObj[x, y].cell.CellEffect > 0)
                     celleffect.Add(GribManager.cell.GribCellObj[x, y]);
-                if (JewelSpawner.spawn.JewelGribScript[x, y] != null && JewelSpawner.spawn.JewelGribScript[x, y].jewel.JewelType != 99 && GribManager.cell.GribCellObj[x, y].cell.CellEffect == 0)
+                if (JewelSpawner.spawn.JewelGribScript[x, y] != null &&
+                    JewelSpawner.spawn.JewelGribScript[x, y].jewel.JewelType != 99 &&
+                    GribManager.cell.GribCellObj[x, y].cell.CellEffect == 0)
                     jeweldes.Add(JewelSpawner.spawn.JewelGribScript[x, y]);
             }
         }
+
         foreach (CellObj item in celleffect)
         {
             item.RemoveEffect();
         }
+
         foreach (JewelObj item in jeweldes)
         {
             item.Destroy();
         }
     }
+
     public void PDestroyCollumn(int x, int _y)
     {
         dropjewel();
@@ -367,31 +382,38 @@ public class GameController : MonoBehaviour
         {
             if (_y != y)
             {
-                if (GribManager.cell.GribCellObj[x, y] != null && GribManager.cell.GribCellObj[x, y].cell.CellEffect > 0)
+                if (GribManager.cell.GribCellObj[x, y] != null &&
+                    GribManager.cell.GribCellObj[x, y].cell.CellEffect > 0)
                     celleffect.Add(GribManager.cell.GribCellObj[x, y]);
-                if (JewelSpawner.spawn.JewelGribScript[x, y] != null && JewelSpawner.spawn.JewelGribScript[x, y].jewel.JewelType != 99 && GribManager.cell.GribCellObj[x, y].cell.CellEffect == 0)
+                if (JewelSpawner.spawn.JewelGribScript[x, y] != null &&
+                    JewelSpawner.spawn.JewelGribScript[x, y].jewel.JewelType != 99 &&
+                    GribManager.cell.GribCellObj[x, y].cell.CellEffect == 0)
                     jeweldes.Add(JewelSpawner.spawn.JewelGribScript[x, y]);
             }
         }
+
         foreach (CellObj item in celleffect)
         {
             item.RemoveEffect();
         }
+
         foreach (JewelObj item in jeweldes)
         {
             item.Destroy();
         }
     }
+
     public void PBoom(int x, int y)
     {
         dropjewel();
         for (int i = x - 1; i <= x + 1; i++)
-            for (int j = y - 1; j <= y + 1; j++)
-            {
-                if (i != x || j != y)
-                    if (i >= 0 && i < 7 && j >= 0 && j < 9 && JewelSpawner.spawn.JewelGribScript[i, j] != null && JewelSpawner.spawn.JewelGribScript[i, j].jewel.JewelType != 99)
-                        JewelSpawner.spawn.JewelGribScript[i, j].Destroy();
-            }
+        for (int j = y - 1; j <= y + 1; j++)
+        {
+            if (i != x || j != y)
+                if (i >= 0 && i < 7 && j >= 0 && j < 9 && JewelSpawner.spawn.JewelGribScript[i, j] != null &&
+                    JewelSpawner.spawn.JewelGribScript[i, j].jewel.JewelType != 99)
+                    JewelSpawner.spawn.JewelGribScript[i, j].Destroy();
+        }
     }
 
     public void PDestroyType(int type, Vector3 pos)
@@ -412,14 +434,14 @@ public class GameController : MonoBehaviour
                 {
                     EffectSpawner.effect.MGE(pos, JewelSpawner.spawn.JewelGrib[x, y].transform.position);
                     tmp.Destroy();
-
                 }
-
             }
         }
+
         yield return new WaitForSeconds(0.2f);
         NoSelect.SetActive(false);
     }
+
     public void PBonusTime()
     {
         StartCoroutine(TimeInc());
@@ -439,26 +461,28 @@ public class GameController : MonoBehaviour
                 {
                     CellObj tmp = listeff[Random.Range(0, listeff.Count)];
                     tmp.RemoveEffect();
-                    EffectSpawner.effect.Thunder(GribManager.cell.GribCell[(int)tmp.cell.CellPosition.x, (int)tmp.cell.CellPosition.y].transform.position);
+                    EffectSpawner.effect.Thunder(GribManager.cell
+                        .GribCell[(int) tmp.cell.CellPosition.x, (int) tmp.cell.CellPosition.y].transform.position);
                 }
                 else
                 {
                     destroynotempty();
                 }
-
             }
             else
             {
                 Vector2 vtmp = posUnderStar();
-                JewelObj tmp = JewelSpawner.spawn.JewelGribScript[(int)vtmp.x, (int)vtmp.y];
+                JewelObj tmp = JewelSpawner.spawn.JewelGribScript[(int) vtmp.x, (int) vtmp.y];
                 if (tmp != null && tmp != JewelStar)
                 {
                     tmp.Destroy();
-                    EffectSpawner.effect.Thunder(GribManager.cell.GribCell[(int)tmp.jewel.JewelPosition.x, (int)tmp.jewel.JewelPosition.y].transform.position);
+                    EffectSpawner.effect.Thunder(GribManager.cell
+                        .GribCell[(int) tmp.jewel.JewelPosition.x, (int) tmp.jewel.JewelPosition.y].transform.position);
                 }
             }
         }
     }
+
     private List<CellObj> getListCellEffect()
     {
         List<CellObj> tmp = new List<CellObj>();
@@ -466,14 +490,17 @@ public class GameController : MonoBehaviour
         {
             for (int x = 0; x < 7; x++)
             {
-                if (GribManager.cell.GribCellObj[x, y] != null && GribManager.cell.GribCellObj[x, y].cell.CellEffect > 0)
+                if (GribManager.cell.GribCellObj[x, y] != null &&
+                    GribManager.cell.GribCellObj[x, y].cell.CellEffect > 0)
                 {
                     tmp.Add(GribManager.cell.GribCellObj[x, y]);
                 }
             }
         }
+
         return tmp;
     }
+
     private List<CellObj> getListNotEmpty()
     {
         List<CellObj> tmp = new List<CellObj>();
@@ -488,22 +515,26 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+
         return tmp;
     }
+
     private Vector2 posUnderStar()
     {
         List<Vector2> under = new List<Vector2>();
-        int x = (int)JewelStar.jewel.JewelPosition.x;
-        int y = (int)JewelStar.jewel.JewelPosition.y;
+        int x = (int) JewelStar.jewel.JewelPosition.x;
+        int y = (int) JewelStar.jewel.JewelPosition.y;
         for (int i = 0; i < y; i++)
         {
             if (JewelSpawner.spawn.JewelGribScript[x, i] != null)
                 under.Add(JewelSpawner.spawn.JewelGribScript[x, i].jewel.JewelPosition);
         }
+
         if (under.Count > 0)
             return under[Random.Range(0, under.Count)];
         else return new Vector2(x, y);
     }
+
     private void destroynotempty()
     {
         try
@@ -512,10 +543,11 @@ public class GameController : MonoBehaviour
             if (listnotempty.Count > 0)
             {
                 Vector2 tmp = listnotempty[Random.Range(0, listnotempty.Count)].cell.CellPosition;
-                if (JewelSpawner.spawn.JewelGribScript[(int)tmp.x, (int)tmp.y] != null)
+                if (JewelSpawner.spawn.JewelGribScript[(int) tmp.x, (int) tmp.y] != null)
                 {
-                    JewelSpawner.spawn.JewelGribScript[(int)tmp.x, (int)tmp.y].Destroy();
-                    EffectSpawner.effect.Thunder(GribManager.cell.GribCell[(int)tmp.x, (int)tmp.y].transform.position);
+                    JewelSpawner.spawn.JewelGribScript[(int) tmp.x, (int) tmp.y].Destroy();
+                    EffectSpawner.effect.Thunder(GribManager.cell.GribCell[(int) tmp.x, (int) tmp.y].transform
+                        .position);
                 }
             }
         }
@@ -537,10 +569,10 @@ public class GameController : MonoBehaviour
                 Timer.timer.GameTime = 270f;
                 break;
             }
+
             t -= 1;
             yield return null;
             if (dem >= 270) break;
-
         }
     }
 
@@ -555,7 +587,8 @@ public class GameController : MonoBehaviour
             int x = Random.Range(0, 7);
             int y = Random.Range(0, 9);
             JewelObj tmp = JewelSpawner.spawn.JewelGribScript[x, y];
-            if (tmp != null && tmp.jewel.JewelType != 8 && tmp.jewel.JewelPower == 0 && GribManager.cell.GribCellObj[x, y].cell.CellEffect == 0)
+            if (tmp != null && tmp.jewel.JewelType != 8 && tmp.jewel.JewelPower == 0 &&
+                GribManager.cell.GribCellObj[x, y].cell.CellEffect == 0)
             {
                 int r = Random.Range(2, 4);
                 tmp.jewel.JewelPower = r;
@@ -576,9 +609,11 @@ public class GameController : MonoBehaviour
                 if (GribManager.cell.GribCellObj[x, y] != null)
                     listpos.Add(new Vector2(x, y));
             }
+
             if (listpos.Count > 0)
                 break;
         }
+
         pos = listpos[Random.Range(0, listpos.Count)];
         JewelSpawner.spawn.SpawnStar(pos);
         SoundController.Sound.StarIn();
@@ -589,14 +624,14 @@ public class GameController : MonoBehaviour
         int Min = 0;
         for (int y = 0; y < 9; y++)
         {
-            if (GribManager.cell.GribCellObj[(int)JewelStar.jewel.JewelPosition.x, y] != null)
+            if (GribManager.cell.GribCellObj[(int) JewelStar.jewel.JewelPosition.x, y] != null)
             {
                 Min = y;
                 break;
             }
         }
 
-        if ((int)JewelStar.jewel.JewelPosition.y == Min)
+        if ((int) JewelStar.jewel.JewelPosition.y == Min)
         {
             Timer.timer.Win();
             Destroy(JewelStar.gameObject);

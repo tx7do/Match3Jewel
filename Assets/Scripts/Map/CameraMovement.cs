@@ -4,20 +4,19 @@ using UnityEngine.UI;
 
 public class CameraMovement : MonoBehaviour
 {
+    public static CameraMovement mcamera; // camera movement
 
-    public static CameraMovement mcamera;       // camera movement
+    public static int StarPointMoveIndex; // position index
 
-    public static int StarPointMoveIndex;       // position index
+    public RectTransform container; // container of scroll view
 
-    public RectTransform container;             // container of scroll view
+    public GameObject PopUp; // popup show when click to item button level
 
-    public GameObject PopUp;                    // popup show when click to item button level
+    public GameObject StarPoint; // position start
 
-    public GameObject StarPoint;                // position start
+    public Sprite[] star; // arrays star of item level
 
-    public Sprite[] star;                       // arrays star of item level
-
-    public GameObject fade;                     // fade animation
+    public GameObject fade; // fade animation
 
     float distance = 90.8f / 8680f;
 
@@ -40,7 +39,10 @@ public class CameraMovement : MonoBehaviour
     {
         setLastpos();
         SetPoint();
-        GoogleMobileAdsScript.advertise.HideBanner();
+        if (GoogleMobileAdsScript.advertise != null)
+        {
+            GoogleMobileAdsScript.advertise.HideBanner();
+        }
     }
 
     void Update()
@@ -72,7 +74,6 @@ public class CameraMovement : MonoBehaviour
         float x = PlayerPrefs.GetFloat("LASTPOSX", -0.0045f);
         float y = PlayerPrefs.GetFloat("LASTPOS", -3.587f);
         StarPoint.transform.position = new Vector3(x, y, StarPoint.transform.position.z);
-
     }
 
     /// <summary>
@@ -80,7 +81,8 @@ public class CameraMovement : MonoBehaviour
     /// </summary>
     public void CameraPosUpdate()
     {
-        transform.position = new Vector3(transform.position.x, -(container.anchoredPosition.y - 4740f) * distance, transform.position.z);
+        transform.position = new Vector3(transform.position.x, -(container.anchoredPosition.y - 4740f) * distance,
+            transform.position.z);
         if (setstate)
             movement = true;
     }
@@ -108,6 +110,7 @@ public class CameraMovement : MonoBehaviour
             else
                 stars[i].sprite = star[1];
         }
+
         PopUp.transform.GetChild(4).GetComponent<Text>().text = _map.HightScore.ToString();
         PopUp.transform.GetChild(6).GetComponent<Text>().text = _map.Level.ToString("00");
         Animation am = PopUp.GetComponent<Animation>();
@@ -133,7 +136,5 @@ public class CameraMovement : MonoBehaviour
         isPopup = false;
         DataLoader.enableclick = true;
         fade.GetComponent<CanvasGroup>().blocksRaycasts = false;
-
     }
-
 }

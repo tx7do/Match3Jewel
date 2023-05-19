@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 public class GribManager : MonoBehaviour
 {
-
-    public static GribManager cell ;
+    public static GribManager cell;
 
     public GameObject[,] GribCell;
 
@@ -62,14 +62,13 @@ public class GribManager : MonoBehaviour
         GribCellObj = new CellObj[7, 9];
         for (int x = 0; x < 7; x++)
         {
-            for (int y = 0 ; y< 9; y++)
+            for (int y = 0; y < 9; y++)
             {
                 if (map[x, y] > 1)
                     GameController.action.CellNotEmpty++;
                 if (map[x, y] > 0)
                     CellInstantiate(x, y, map[x, y]);
-                EffectSpawner.effect.JewelCrashArray[x, y] = EffectSpawner.effect.JewelCash(new Vector3(x,y));
-                
+                EffectSpawner.effect.JewelCrashArray[x, y] = EffectSpawner.effect.JewelCash(new Vector3(x, y));
             }
         }
     }
@@ -81,23 +80,22 @@ public class GribManager : MonoBehaviour
             for (int y = 0; y < 9; y++)
             {
                 if (map[x, y] > 0)
-                EffectSpawner.effect.JewelCrashArray[x, y] = EffectSpawner.effect.JewelCash(new Vector3(x, y));
+                    EffectSpawner.effect.JewelCrashArray[x, y] = EffectSpawner.effect.JewelCash(new Vector3(x, y));
             }
         }
     }
 
     void CellInstantiate(int x, int y, int type)
     {
-        ObjTmp = (GameObject)Instantiate(CellPrefab);
+        ObjTmp = (GameObject) Instantiate(CellPrefab);
         ObjTmp.transform.SetParent(GribParent.transform, false);
         ObjTmp.transform.localPosition = new Vector3(x, y);
         cellscript = ObjTmp.GetComponent<CellObj>();
         cellscript.CellCode = type;
         cellscript.cell = SetCell(type, x, y);
-        cellscript.SetSprite(cellscript.cell.CellType-1);
+        cellscript.SetSprite(cellscript.cell.CellType - 1);
         GribCell[x, y] = ObjTmp;
         GribCellObj[x, y] = cellscript;
-
     }
 
     int[,] MapReader(string mapName)
@@ -106,24 +104,24 @@ public class GribManager : MonoBehaviour
         string mapStringdata = "";
         //read string from text file
 #if UNITY_EDITOR
-        mapStringdata = Resources.LoadAssetAtPath<TextAsset>(@path + mapName + ".txt").ToString();
+        mapStringdata = AssetDatabase.LoadAssetAtPath<TextAsset>(@path + mapName + ".txt").ToString();
 #else
 	    TextAsset txtass = (TextAsset)Resources.Load ("Maps/" + mapName, typeof(TextAsset));
 	    mapStringdata = txtass.ToString ();
 #endif
-        string[] stringresult = mapStringdata.Split(new char[] { '	', '\n' });
+        string[] stringresult = mapStringdata.Split(new char[] {'	', '\n'});
         int dem = 0;
         for (int y = 8; y >= 0; y--)
-            for (int x = 0; x < 7; x++)
-            {
-                tmp[x, y] = int.Parse(stringresult[dem]);
-                dem++;
-            }
-        return tmp;
+        for (int x = 0; x < 7; x++)
+        {
+            tmp[x, y] = int.Parse(stringresult[dem]);
+            dem++;
+        }
 
+        return tmp;
     }
 
-    Cell SetCell(int type,int x,int y)
+    Cell SetCell(int type, int x, int y)
     {
         Cell script = new Cell();
 
@@ -137,10 +135,13 @@ public class GribManager : MonoBehaviour
             script.CellType = type % 100 % 10;
             script.CellEffect = 0;
         }
+
         script.CellPosition = new Vector2(x, y);
         return script;
     }
+
     #region boder create
+
     void BorderCreate(int[,] map)
     {
         for (int x = 0; x < 7; x++)
@@ -148,12 +149,13 @@ public class GribManager : MonoBehaviour
             for (int y = 0; y < 9; y++)
             {
                 int i = map[x, y];
-                if (i >0)
+                if (i > 0)
                 {
-
                     borderins(GribCell[x, y], left(x, y), right(x, y), top(x, y), bot(x, y));
-                    CornerOutChecker(GribCell[x, y], topleft(x, y), topright(x, y), botleft(x, y), botright(x, y),x,y);
-                } else
+                    CornerOutChecker(GribCell[x, y], topleft(x, y), topright(x, y), botleft(x, y), botright(x, y), x,
+                        y);
+                }
+                else
                 {
                     boderInChecker(map, x, y);
                 }
@@ -165,9 +167,9 @@ public class GribManager : MonoBehaviour
     {
         if (x == 0)
             return true;
-        else if (x - 1 >= 0 && Map[x-1, y] == 0)
+        else if (x - 1 >= 0 && Map[x - 1, y] == 0)
             return true;
-            
+
         return false;
     }
 
@@ -175,7 +177,7 @@ public class GribManager : MonoBehaviour
     {
         if (x == 6)
             return true;
-        else if (x + 1 <= 6 && Map[x+1, y] == 0)
+        else if (x + 1 <= 6 && Map[x + 1, y] == 0)
             return true;
 
         return false;
@@ -183,10 +185,10 @@ public class GribManager : MonoBehaviour
 
     bool bot(int x, int y)
     {
-            if (y == 0)
-                return true;
-            else if (x < 7 && y - 1 >= 0 && Map[x, y - 1] == 0)
-                return true;
+        if (y == 0)
+            return true;
+        else if (x < 7 && y - 1 >= 0 && Map[x, y - 1] == 0)
+            return true;
 
         return false;
     }
@@ -195,7 +197,7 @@ public class GribManager : MonoBehaviour
     {
         if (y == 8)
             return true;
-        else if (y + 1 <= 8 && Map[x, y+1] == 0)
+        else if (y + 1 <= 8 && Map[x, y + 1] == 0)
             return true;
 
         return false;
@@ -205,7 +207,7 @@ public class GribManager : MonoBehaviour
     {
         if (x - 1 < 0 || y + 1 > 8)
             return true;
-        else if (x - 1 >= 0 && y + 1 <= 8 &&  Map[x - 1, y + 1] == 0)
+        else if (x - 1 >= 0 && y + 1 <= 8 && Map[x - 1, y + 1] == 0)
             return true;
 
         return false;
@@ -213,11 +215,10 @@ public class GribManager : MonoBehaviour
 
     bool topright(int x, int y)
     {
-
-            if (x + 1 > 6 || y + 1 > 8)
-                return true;
-            else if (x + 1 <= 6 && y + 1 <= 8 && Map[x + 1, y + 1] == 0)
-                return true;
+        if (x + 1 > 6 || y + 1 > 8)
+            return true;
+        else if (x + 1 <= 6 && y + 1 <= 8 && Map[x + 1, y + 1] == 0)
+            return true;
 
         return false;
     }
@@ -236,169 +237,171 @@ public class GribManager : MonoBehaviour
     {
         if (x + 1 > 6 || y - 1 < 0)
             return true;
-        else if (x + 1 <=6 && y - 1 >= 0 && Map[x + 1, y - 1] == 0)
+        else if (x + 1 <= 6 && y - 1 >= 0 && Map[x + 1, y - 1] == 0)
             return true;
 
         return false;
     }
 
-    void borderins(GameObject parent,bool left,bool right,bool top, bool bot)
+    void borderins(GameObject parent, bool left, bool right, bool top, bool bot)
     {
-       // Debug.Log(parent.GetComponent<CellObj>().cell.CellPosition);
+        // Debug.Log(parent.GetComponent<CellObj>().cell.CellPosition);
 
         if (left)
         {
-
-                ObjTmp = (GameObject)Instantiate(border[2]);
-                ObjTmp.transform.SetParent(BorderParent.transform, false);
-                ObjTmp.transform.localPosition += parent.transform.localPosition;
-             //   boderInChecker(parent);
+            ObjTmp = (GameObject) Instantiate(border[2]);
+            ObjTmp.transform.SetParent(BorderParent.transform, false);
+            ObjTmp.transform.localPosition += parent.transform.localPosition;
+            //   boderInChecker(parent);
         }
 
-                    
+
         if (right)
         {
-
-                ObjTmp = (GameObject)Instantiate(border[3]);
-                ObjTmp.transform.SetParent(BorderParent.transform, false);
-                ObjTmp.transform.localPosition += parent.transform.localPosition;
-                //boderInChecker(parent);
+            ObjTmp = (GameObject) Instantiate(border[3]);
+            ObjTmp.transform.SetParent(BorderParent.transform, false);
+            ObjTmp.transform.localPosition += parent.transform.localPosition;
+            //boderInChecker(parent);
         }
+
         if (top)
         {
-
-                ObjTmp = (GameObject)Instantiate(border[1]);
-                ObjTmp.transform.SetParent(BorderParent.transform, false);
-                ObjTmp.transform.localPosition += parent.transform.localPosition;
+            ObjTmp = (GameObject) Instantiate(border[1]);
+            ObjTmp.transform.SetParent(BorderParent.transform, false);
+            ObjTmp.transform.localPosition += parent.transform.localPosition;
         }
+
         if (bot)
         {
-
-                ObjTmp = (GameObject)Instantiate(border[0]);
-                ObjTmp.transform.SetParent(BorderParent.transform, false);
-                ObjTmp.transform.localPosition += parent.transform.localPosition;
-        }
-
-       
-    }
-
-
-    void CornerOutChecker(GameObject parent, bool topleft, bool topright, bool botleft, bool botright,int x, int y)
-    {
-        bool _top = top(x,y);
-        bool _bot = bot(x,y);
-        bool _left = left(x,y);
-        bool _right = right(x,y);
-
-        if (topleft &&  _top && _left)
-        {
-            ObjTmp = (GameObject)Instantiate(corner[0]);
+            ObjTmp = (GameObject) Instantiate(border[0]);
             ObjTmp.transform.SetParent(BorderParent.transform, false);
             ObjTmp.transform.localPosition += parent.transform.localPosition;
         }
+    }
+
+
+    void CornerOutChecker(GameObject parent, bool topleft, bool topright, bool botleft, bool botright, int x, int y)
+    {
+        bool _top = top(x, y);
+        bool _bot = bot(x, y);
+        bool _left = left(x, y);
+        bool _right = right(x, y);
+
+        if (topleft && _top && _left)
+        {
+            ObjTmp = (GameObject) Instantiate(corner[0]);
+            ObjTmp.transform.SetParent(BorderParent.transform, false);
+            ObjTmp.transform.localPosition += parent.transform.localPosition;
+        }
+
         if (topright && _top && _right)
         {
-            ObjTmp = (GameObject)Instantiate(corner[1]);
+            ObjTmp = (GameObject) Instantiate(corner[1]);
             ObjTmp.transform.SetParent(BorderParent.transform, false);
             ObjTmp.transform.localPosition += parent.transform.localPosition;
         }
+
         if (botleft && _bot && _left)
         {
-            ObjTmp = (GameObject)Instantiate(corner[2]);
+            ObjTmp = (GameObject) Instantiate(corner[2]);
             ObjTmp.transform.SetParent(BorderParent.transform, false);
             ObjTmp.transform.localPosition += parent.transform.localPosition;
         }
+
         if (botright && _bot && _right)
         {
-            ObjTmp = (GameObject)Instantiate(corner[3]);
+            ObjTmp = (GameObject) Instantiate(corner[3]);
             ObjTmp.transform.SetParent(BorderParent.transform, false);
             ObjTmp.transform.localPosition += parent.transform.localPosition;
         }
-     
     }
 
-    void boderInChecker(int[,] map ,int x,int y)
+    void boderInChecker(int[,] map, int x, int y)
     {
-        if (x - 1 >= 0 && y - 1 >= 0 && map[ x - 1, y] > 0  && map[x ,y - 1] > 0 )
+        if (x - 1 >= 0 && y - 1 >= 0 && map[x - 1, y] > 0 && map[x, y - 1] > 0)
         {
-
-            ObjTmp = (GameObject)Instantiate(corner[6]);
+            ObjTmp = (GameObject) Instantiate(corner[6]);
             ObjTmp.transform.SetParent(BorderParent.transform, false);
-            ObjTmp.transform.localPosition += new Vector3(x-1, y-1);
+            ObjTmp.transform.localPosition += new Vector3(x - 1, y - 1);
         }
+
         if (x - 1 >= 0 && y + 1 < 9 && map[x - 1, y] > 0 && map[x, y + 1] > 0)
         {
-
-            ObjTmp = (GameObject)Instantiate(corner[4]);
+            ObjTmp = (GameObject) Instantiate(corner[4]);
             ObjTmp.transform.SetParent(BorderParent.transform, false);
-            ObjTmp.transform.localPosition += new Vector3(x - 1 , y);
+            ObjTmp.transform.localPosition += new Vector3(x - 1, y);
         }
+
         if (x + 1 < 7 && y - 1 >= 0 && map[x + 1, y] > 0 && map[x, y - 1] > 0)
         {
-
-            ObjTmp = (GameObject)Instantiate(corner[7]);
+            ObjTmp = (GameObject) Instantiate(corner[7]);
             ObjTmp.transform.SetParent(BorderParent.transform, false);
             ObjTmp.transform.localPosition += new Vector3(x, y - 1);
         }
+
         if (x + 1 < 7 && y + 1 < 9 && map[x + 1, y] > 0 && map[x, y + 1] > 0)
         {
-
-            ObjTmp = (GameObject)Instantiate(corner[5]);
+            ObjTmp = (GameObject) Instantiate(corner[5]);
             ObjTmp.transform.SetParent(BorderParent.transform, false);
             ObjTmp.transform.localPosition += new Vector3(x, y);
         }
-
-        
     }
 
     bool CornerOutCheckTop(GameObject parent)
     {
         CellObj obj = parent.GetComponent<CellObj>();
-        int x =(int) obj.cell.CellPosition.x;
-        int y = (int)obj.cell.CellPosition.y;
-        for (int i = y+1; i < 9; i++)
+        int x = (int) obj.cell.CellPosition.x;
+        int y = (int) obj.cell.CellPosition.y;
+        for (int i = y + 1; i < 9; i++)
         {
             if (GribCellObj[x, i] != null)
                 return false;
         }
+
         return true;
     }
+
     bool CornerOutCheckBot(GameObject parent)
     {
         CellObj obj = parent.GetComponent<CellObj>();
-        int x = (int)obj.cell.CellPosition.x;
-        int y = (int)obj.cell.CellPosition.y;
-        for (int i = y - 1 ; i >=0; i--)
+        int x = (int) obj.cell.CellPosition.x;
+        int y = (int) obj.cell.CellPosition.y;
+        for (int i = y - 1; i >= 0; i--)
         {
             if (GribCellObj[x, i] != null)
                 return false;
         }
+
         return true;
     }
+
     bool CornerOutCheckRight(GameObject parent)
     {
         CellObj obj = parent.GetComponent<CellObj>();
-        int x = (int)obj.cell.CellPosition.x;
-        int y = (int)obj.cell.CellPosition.y;
+        int x = (int) obj.cell.CellPosition.x;
+        int y = (int) obj.cell.CellPosition.y;
         for (int i = x + 1; i < 7; i++)
         {
             if (GribCellObj[i, y] != null)
                 return false;
         }
+
         return true;
     }
+
     bool CornerOutCheckLeft(GameObject parent)
     {
         CellObj obj = parent.GetComponent<CellObj>();
-        int x = (int)obj.cell.CellPosition.x;
-        int y = (int)obj.cell.CellPosition.y;
-        for (int i = x-1; i >= 0; i--)
+        int x = (int) obj.cell.CellPosition.x;
+        int y = (int) obj.cell.CellPosition.y;
+        for (int i = x - 1; i >= 0; i--)
         {
             if (GribCellObj[i, y] != null)
                 return false;
         }
+
         return true;
     }
 
-#endregion 
+    #endregion
 }
