@@ -3,13 +3,13 @@ using System.Collections;
 
 public class LoseUI : MonoBehaviour
 {
-    public UnityEngine.UI.Text Score;   // current score
+    public UnityEngine.UI.Text Score; // current score
 
-    public UnityEngine.UI.Text Best;    // best score
+    public UnityEngine.UI.Text Best; // best score
 
-    private int playerScore;            // score tmp
+    private int playerScore; // score tmp
 
-    private int star;                   // star number
+    private int star; // star number
 
     void Start()
     {
@@ -21,7 +21,6 @@ public class LoseUI : MonoBehaviour
         Score.text = playerScore.ToString();
         // display best score text
         Best.text = getBestScore(playerScore).ToString();
-
     }
 
     /// <summary>
@@ -39,7 +38,7 @@ public class LoseUI : MonoBehaviour
                 PlayerPrefs.SetInt(PLayerInfo.KEY_CLASSIC_HISCORE, PLayerInfo.MapPlayer.HightScore);
             }
         }
+
         return PLayerInfo.MapPlayer.HightScore;
     }
-
 }

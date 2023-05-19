@@ -15,6 +15,7 @@ public class Player
     public int Stars;
     public int HightScore;
     public int Background;
+
     public string ToSaveString()
     {
         string s = Locked + "," + Stars + "," + HightScore + "," + Background + ",";
@@ -28,6 +29,7 @@ public class PlayerUtils
     private string data = "";
     private string[] dataSplit;
     private Player p;
+
     public void Save(List<Player> Maps)
     {
         //PlayerPrefs.DeleteKey(KEY_DATA);
@@ -35,6 +37,7 @@ public class PlayerUtils
         {
             data += item.ToSaveString();
         }
+
         PlayerPrefs.SetString(KEY_DATA, data);
     }
 
@@ -65,4 +68,3 @@ public class PlayerUtils
         return list;
     }
 }
-

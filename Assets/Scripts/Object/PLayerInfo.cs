@@ -3,14 +3,13 @@ using System.Collections;
 
 public class PLayerInfo : MonoBehaviour
 {
+    public static PLayerInfo Info; // infomations of player
 
-    public static PLayerInfo Info;      // infomations of player
+    public static Player MapPlayer; // player object
 
-    public static Player MapPlayer;     // player object
+    public static byte MODE; // mode : Arcade or Classic 
 
-    public static byte MODE;            // mode : Arcade or Classic 
-
-    public static int BACKGROUND;       // background of mode
+    public static int BACKGROUND; // background of mode
 
     public int Score;
 
@@ -22,7 +21,6 @@ public class PLayerInfo : MonoBehaviour
     {
         Info = this;
         BACKGROUND = MapPlayer.Background;
-
     }
 
     void Start()

@@ -3,10 +3,10 @@ using System.Collections;
 
 public class ButtonActionController : MonoBehaviour
 {
+    public static ButtonActionController Click; // instance of ButtonActionController
 
-    public static ButtonActionController Click;     // instance of ButtonActionController
+    public Sprite[] ButtonSprite; //sprite array of buttons
 
-    public Sprite[] ButtonSprite;                   //sprite array of buttons
     void Awake()
     {
         if (Click == null)
@@ -85,7 +85,6 @@ public class ButtonActionController : MonoBehaviour
     /// <param name="button">Image button</param>
     public void BMusic(UnityEngine.UI.Button button)
     {
-
         if (PlayerPrefs.GetInt("MUSIC", 0) != 1)
         {
             PlayerPrefs.SetInt("MUSIC", 1); // music off
@@ -94,8 +93,8 @@ public class ButtonActionController : MonoBehaviour
         {
             PlayerPrefs.SetInt("MUSIC", 0); // music on
         }
-
     }
+
     /// <summary>
     /// Set and change state of sound background
     /// </summary>

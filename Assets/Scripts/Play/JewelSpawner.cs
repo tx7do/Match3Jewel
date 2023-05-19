@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class JewelSpawner : MonoBehaviour
 {
-
     public static JewelSpawner spawn;
 
     public GameObject[,] JewelGrib;
@@ -55,9 +54,11 @@ public class JewelSpawner : MonoBehaviour
             int s = 0;
             for (int y = 0; y < 9; y++)
             {
-                if (GribManager.cell.GribCellObj[x, y] != null && GribManager.cell.GribCellObj[x, y].cell.CellEffect == 4)
+                if (GribManager.cell.GribCellObj[x, y] != null &&
+                    GribManager.cell.GribCellObj[x, y].cell.CellEffect == 4)
                     s = y;
             }
+
             for (int y = s; y < 9; y++)
             {
                 if (Map[x, y] > 0)
@@ -73,15 +74,16 @@ public class JewelSpawner : MonoBehaviour
             JewelMapCreate(Map);
         }
     }
+
     void RemakeGrib()
     {
         for (int x = 0; x < 7; x++)
-            for (int y = 0; y < 9; y++)
-                if (JewelGrib[x, y] != null && JewelGribScript[x, y] != GameController.action.JewelStar)
-                {
-                    Destroy(JewelGrib[x, y]);
-                    JewelGribScript[x, y] = null;
-                }
+        for (int y = 0; y < 9; y++)
+            if (JewelGrib[x, y] != null && JewelGribScript[x, y] != GameController.action.JewelStar)
+            {
+                Destroy(JewelGrib[x, y]);
+                JewelGribScript[x, y] = null;
+            }
 
         for (int i = 0; i < 7; i++)
         {
@@ -90,14 +92,14 @@ public class JewelSpawner : MonoBehaviour
                 if (prespawnlist[i][j] != null)
                     Destroy(prespawnlist[i][j]);
             }
+
             prespawnlist[i].Clear();
         }
-
     }
 
     public IEnumerator Respawn()
     {
-    loop:
+        loop:
         RemakeGrib();
 
         for (int x = 0; x < 7; x++)
@@ -105,9 +107,11 @@ public class JewelSpawner : MonoBehaviour
             int s = 0;
             for (int y = 0; y < 9; y++)
             {
-                if (GribManager.cell.GribCellObj[x, y] != null && GribManager.cell.GribCellObj[x, y].cell.CellEffect == 4)
+                if (GribManager.cell.GribCellObj[x, y] != null &&
+                    GribManager.cell.GribCellObj[x, y].cell.CellEffect == 4)
                     s = y;
             }
+
             for (int y = s; y < 9; y++)
             {
                 if (GribManager.cell.Map[x, y] > 0 && JewelGribScript[x, y] == null)
@@ -142,10 +146,11 @@ public class JewelSpawner : MonoBehaviour
 
     public GameObject JewelInstantiate(int x, int y)
     {
-        ObjTmp = (GameObject)Instantiate(JewelObject);
+        ObjTmp = (GameObject) Instantiate(JewelObject);
         JewelScript = ObjTmp.GetComponent<JewelObj>();
         ObjTmp.transform.SetParent(JewelParent.transform, false);
-        ObjTmp.transform.localPosition = new Vector3(ObjTmp.transform.localPosition.x + x * BaseDistance, ObjTmp.transform.localPosition.y + y * BaseDistance);
+        ObjTmp.transform.localPosition = new Vector3(ObjTmp.transform.localPosition.x + x * BaseDistance,
+            ObjTmp.transform.localPosition.y + y * BaseDistance);
         JewelGrib[x, y] = ObjTmp;
         JewelGribScript[x, y] = JewelScript;
         int r = 0;
@@ -165,7 +170,7 @@ public class JewelSpawner : MonoBehaviour
     public GameObject JewelInstantiatebt(int x, int y)
     {
         GameObject tmp;
-        tmp = (GameObject)Instantiate(JewelObject);
+        tmp = (GameObject) Instantiate(JewelObject);
         JewelScript = tmp.GetComponent<JewelObj>();
 
         tmp.transform.SetParent(JewelParent.transform, false);
@@ -191,7 +196,9 @@ public class JewelSpawner : MonoBehaviour
         GameObject o = obj;
         Animation anim = ObjTmp.GetComponent<Animation>();
         if (anim.GetClipCount() > 0)
+        {
             anim.RemoveClip("Moveto");
+        }
 
         prespawnlist[x].RemoveAt(0);
 
@@ -205,7 +212,7 @@ public class JewelSpawner : MonoBehaviour
 
     GameObject RJewelInstantiate(int x, int y)
     {
-        ObjTmp = (GameObject)Instantiate(JewelObject);
+        ObjTmp = (GameObject) Instantiate(JewelObject);
         JewelScript = ObjTmp.GetComponent<JewelObj>();
         ObjTmp.transform.SetParent(JewelParent.transform, false);
         ObjTmp.transform.localPosition = new Vector3(x, y);
@@ -233,13 +240,16 @@ public class JewelSpawner : MonoBehaviour
             else
                 r = Random.Range(0, 7);
 
-            if (x < 2 || JewelGribScript[x - 1, y] == null | JewelGribScript[x - 2, y] == null || r != JewelGribScript[x - 1, y].jewel.JewelType || r != JewelGribScript[x - 2, y].jewel.JewelType)
+            if (x < 2 || JewelGribScript[x - 1, y] == null | JewelGribScript[x - 2, y] == null ||
+                r != JewelGribScript[x - 1, y].jewel.JewelType || r != JewelGribScript[x - 2, y].jewel.JewelType)
             {
-                if (y < 2 || JewelGribScript[x, y - 1] == null || JewelGribScript[x, y - 2] == null || JewelGribScript[x, y - 1].jewel.JewelType != r || JewelGribScript[x, y - 2].jewel.JewelType != r)
+                if (y < 2 || JewelGribScript[x, y - 1] == null || JewelGribScript[x, y - 2] == null ||
+                    JewelGribScript[x, y - 1].jewel.JewelType != r || JewelGribScript[x, y - 2].jewel.JewelType != r)
                 {
                     return r;
                 }
             }
+
             dem++;
             if (dem > 100)
                 return 0;
@@ -255,17 +265,17 @@ public class JewelSpawner : MonoBehaviour
     public GameObject SpawnJewelPower(int type, int power, Vector3 pos)
     {
         GameObject tmp;
-        int x = (int)pos.x;
-        int y = (int)pos.y;
+        int x = (int) pos.x;
+        int y = (int) pos.y;
         if (JewelGrib[x, y] != null)
             Destroy(JewelGrib[x, y]);
         if (type == 8)
         {
-            tmp = (GameObject)Instantiate(JewelColor);
+            tmp = (GameObject) Instantiate(JewelColor);
         }
         else
         {
-            tmp = (GameObject)Instantiate(JewelObject);
+            tmp = (GameObject) Instantiate(JewelObject);
         }
 
         JewelScript = tmp.GetComponent<JewelObj>();
@@ -280,28 +290,27 @@ public class JewelSpawner : MonoBehaviour
         JewelScript.jewel.JewelType = type;
         JewelScript.jewel.JewelPower = power;
         tmp.GetComponent<Collider2D>().enabled = false;
-        if (power == (int)GameController.Power.BOOM)
+        if (power == (int) GameController.Power.BOOM)
             EffectSpawner.effect.Enchant(tmp.transform.GetChild(0).gameObject);
         return tmp;
     }
 
     public void SpawnStar(Vector2 pos)
     {
-        if (JewelGribScript[(int)pos.x, (int)pos.y] != null)
-            Destroy(JewelGrib[(int)pos.x, (int)pos.y]);
+        if (JewelGribScript[(int) pos.x, (int) pos.y] != null)
+            Destroy(JewelGrib[(int) pos.x, (int) pos.y]);
 
-        GameObject tmp = (GameObject)Instantiate(Star);
+        GameObject tmp = (GameObject) Instantiate(Star);
         tmp.name = "JewelStar";
         tmp.transform.SetParent(JewelParent.transform, false);
         tmp.transform.localPosition = new Vector3(pos.x, pos.y);
         tmp.transform.GetChild(0).gameObject.SetActive(false);
         JewelScript = tmp.GetComponent<JewelObj>();
         JewelScript.jewel.JewelPosition = pos;
-        JewelGribScript[(int)pos.x, (int)pos.y] = JewelScript;
-        JewelGrib[(int)pos.x, (int)pos.y] = tmp;
+        JewelGribScript[(int) pos.x, (int) pos.y] = JewelScript;
+        JewelGrib[(int) pos.x, (int) pos.y] = tmp;
         GameController.action.JewelStar = JewelScript;
 
         StarEffect.SetActive(true);
     }
-
 }

@@ -6,12 +6,12 @@ using System.Collections;
 /// </summary>
 public class SoundController : MonoBehaviour
 {
-
     public static SoundController Sound; // instance of SoundController
 
-    public AudioClip[] SoundClips;      // array sound clips
+    public AudioClip[] SoundClips; // array sound clips
 
-    public AudioSource audiosource;     // audio source
+    public AudioSource audiosource; // audio source
+
     void Awake()
     {
         if (Sound == null)
@@ -44,8 +44,8 @@ public class SoundController : MonoBehaviour
     public void Click()
     {
         audiosource.PlayOneShot(SoundClips[0]);
-
     }
+
     public void JewelCrash()
     {
         audiosource.PlayOneShot(SoundClips[1]);
@@ -55,6 +55,7 @@ public class SoundController : MonoBehaviour
     {
         audiosource.PlayOneShot(SoundClips[2]);
     }
+
     public void IceCrash()
     {
         audiosource.PlayOneShot(SoundClips[3]);
@@ -64,6 +65,7 @@ public class SoundController : MonoBehaviour
     {
         audiosource.PlayOneShot(SoundClips[4]);
     }
+
     public void Lose()
     {
         audiosource.PlayOneShot(SoundClips[5]);
@@ -73,17 +75,19 @@ public class SoundController : MonoBehaviour
     {
         audiosource.PlayOneShot(SoundClips[6]);
     }
+
     public void Fire()
     {
         audiosource.PlayOneShot(SoundClips[7]);
     }
+
     public void Gun()
     {
         audiosource.PlayOneShot(SoundClips[8]);
     }
+
     public void Boom()
     {
         audiosource.PlayOneShot(SoundClips[9]);
     }
-
 }

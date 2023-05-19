@@ -4,8 +4,8 @@ using System.Collections;
 /// <summary>
 /// background music in game
 /// </summary>
-public class MusicController : MonoBehaviour {
-
+public class MusicController : MonoBehaviour
+{
     public static MusicController Music;
 
     public AudioClip[] MusicClips;
@@ -23,17 +23,16 @@ public class MusicController : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        
     }
 
     public void MusicON()
     {
-        audiosource.mute = false; 
+        audiosource.mute = false;
     }
 
-    public void MusicOFF(){
-        audiosource.mute = true; 
-        
+    public void MusicOFF()
+    {
+        audiosource.mute = true;
     }
 
     public void BG_menu()
@@ -47,5 +46,4 @@ public class MusicController : MonoBehaviour {
         audiosource.clip = MusicClips[1];
         audiosource.Play();
     }
-
 }

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class StarMove : MonoBehaviour
 {
-
     float X = -1;
     float Y = -1;
     bool actived = false;
@@ -21,19 +20,20 @@ public class StarMove : MonoBehaviour
 
     void Update()
     {
-
         if (actived)
         {
-            X = JewelSpawner.spawn.JewelGrib[(int)GameController.action.JewelStar.jewel.JewelPosition.x, (int)GameController.action.JewelStar.jewel.JewelPosition.y].transform.position.x;
-            Y = JewelSpawner.spawn.JewelGrib[(int)GameController.action.JewelStar.jewel.JewelPosition.x, (int)GameController.action.JewelStar.jewel.JewelPosition.y].transform.position.y;
+            X = JewelSpawner.spawn.JewelGrib[(int) GameController.action.JewelStar.jewel.JewelPosition.x,
+                (int) GameController.action.JewelStar.jewel.JewelPosition.y].transform.position.x;
+            Y = JewelSpawner.spawn.JewelGrib[(int) GameController.action.JewelStar.jewel.JewelPosition.x,
+                (int) GameController.action.JewelStar.jewel.JewelPosition.y].transform.position.y;
         }
 
         if (X != -1 && X != transform.localPosition.x)
             MoveToX(X);
         if (Y != -1 && Y != transform.localPosition.y)
             MoveToY(Y);
-
     }
+
     void MoveToX(float x)
     {
         if (Mathf.Abs(x - transform.localPosition.x) > 0.15)
@@ -49,6 +49,7 @@ public class StarMove : MonoBehaviour
             X = -1;
         }
     }
+
     void MoveToY(float y)
     {
         if (Mathf.Abs(y - transform.localPosition.y) > 0.15)
@@ -62,7 +63,6 @@ public class StarMove : MonoBehaviour
         {
             transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
             Y = -1;
-
         }
     }
 }

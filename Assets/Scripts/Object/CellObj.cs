@@ -4,7 +4,6 @@ using System.Collections;
 
 public class CellObj : MonoBehaviour
 {
-
     public int CellCode;
 
     public Cell cell;
@@ -27,7 +26,6 @@ public class CellObj : MonoBehaviour
         this.GetComponent<SpriteRenderer>().sprite = GribManager.cell.CellSprite[type];
 
         setChilEffectSprite(cell.CellEffect);
-
     }
 
     /// <summary>
@@ -48,9 +46,10 @@ public class CellObj : MonoBehaviour
                 EffectSpawner.effect.LockCrash(cell.CellPosition);
                 SoundController.Sound.LockCrash();
             }
+
             cell.CellEffect = 0;
-            if (JewelSpawner.spawn.JewelGribScript[(int)cell.CellPosition.x, (int)cell.CellPosition.y] != null)
-                JewelSpawner.spawn.JewelGribScript[(int)cell.CellPosition.x, (int)cell.CellPosition.y].RuleChecker();
+            if (JewelSpawner.spawn.JewelGribScript[(int) cell.CellPosition.x, (int) cell.CellPosition.y] != null)
+                JewelSpawner.spawn.JewelGribScript[(int) cell.CellPosition.x, (int) cell.CellPosition.y].RuleChecker();
         }
     }
 
@@ -64,7 +63,6 @@ public class CellObj : MonoBehaviour
         {
             transform.GetChild(0).gameObject.SetActive(false);
         }
-
     }
 
     public void CelltypeProcess()
@@ -79,14 +77,13 @@ public class CellObj : MonoBehaviour
                 if (GameController.action.CellNotEmpty == 0)
                     GameController.action.isShowStar = true;
             }
-
         }
     }
+
     void runAnim()
     {
         Animation anim = GetComponent<Animation>();
         anim.enabled = true;
         anim.Play("CellChangeSprite");
     }
-
 }

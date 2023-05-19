@@ -5,20 +5,19 @@ using GoogleMobileAds.Api;
 
 public class GoogleMobileAdsScript : MonoBehaviour
 {
+    public static GoogleMobileAdsScript advertise; // instance of  GoogleMobileAdsScript
 
-    public static GoogleMobileAdsScript advertise;      // instance of  GoogleMobileAdsScript
+    private BannerView bannerView; // banner ads
+    private InterstitialAd interstitial; // interstitial ads
 
-    private BannerView bannerView;                      // banner ads
-    private InterstitialAd interstitial;                // interstitial ads
+    public string androidBanner; // unit id banner for android
+    public string androidInterstitial; // unit id instersitial for android
 
-    public string androidBanner;                        // unit id banner for android
-    public string androidInterstitial;                  // unit id instersitial for android
+    public string iosBanner; // unit id banner for IOS
+    public string iosInterstitial; // unit id instersitial for IOS
 
-    public string iosBanner;                            // unit id banner for IOS
-    public string iosInterstitial;                      // unit id instersitial for IOS
-
-    public AdSize adSize = AdSize.Banner;               // size and type of banner ads
-    public AdPosition adPosition = AdPosition.Bottom;   // position of banner ads
+    public AdSize adSize = AdSize.Banner; // size and type of banner ads
+    public AdPosition adPosition = AdPosition.Bottom; // position of banner ads
 
     void Awake()
     {
@@ -33,6 +32,7 @@ public class GoogleMobileAdsScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     /// <summary>
     /// Create a banner 
     /// </summary>
@@ -65,8 +65,11 @@ public class GoogleMobileAdsScript : MonoBehaviour
             // Load a banner ad.
             //bannerView.LoadAd(createAdRequest());
         }
-        catch { }
+        catch
+        {
+        }
     }
+
     /// <summary>
     /// create an interstitial.
     /// </summary>
@@ -95,7 +98,9 @@ public class GoogleMobileAdsScript : MonoBehaviour
             // Load an interstitial ad.
             interstitial.LoadAd(createAdRequest());
         }
-        catch { }
+        catch
+        {
+        }
     }
 
     /// <summary>
@@ -107,12 +112,12 @@ public class GoogleMobileAdsScript : MonoBehaviour
         return new AdRequest.Builder()
             //	.AddTestDevice(AdRequest.TestDeviceSimulator)
             //	.AddTestDevice("0123456789ABCDEF0123456789ABCDEF")
-                .AddKeyword("game")
-                .SetGender(Gender.Male)
-                .SetBirthday(new DateTime(1985, 1, 1))
-                .TagForChildDirectedTreatment(false)
-                .AddExtra("color_bg", "9B30FF")
-                .Build();
+            .AddKeyword("game")
+            .SetGender(Gender.Male)
+            .SetBirthday(new DateTime(1985, 1, 1))
+            .TagForChildDirectedTreatment(false)
+            .AddExtra("color_bg", "9B30FF")
+            .Build();
     }
 
     /// <summary>
@@ -127,7 +132,9 @@ public class GoogleMobileAdsScript : MonoBehaviour
                 interstitial.Show();
             }
         }
-        catch { }
+        catch
+        {
+        }
     }
 
     /// <summary>
@@ -139,7 +146,9 @@ public class GoogleMobileAdsScript : MonoBehaviour
         {
             bannerView.Show();
         }
-        catch { }
+        catch
+        {
+        }
     }
 
     /// <summary>
@@ -147,7 +156,6 @@ public class GoogleMobileAdsScript : MonoBehaviour
     /// </summary>
     public void HideBanner()
     {
-
         if (bannerView != null)
             bannerView.Hide();
     }

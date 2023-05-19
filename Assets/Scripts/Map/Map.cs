@@ -3,20 +3,18 @@ using System.Collections;
 
 public class Map : MonoBehaviour
 {
-
     public Player map;
 
     void OnMouseDown()
     {
-
         CameraMovement.setstate = true;
         CameraMovement.movement = false;
         if (DataLoader.enableclick)
             transform.GetChild(0).transform.localScale = new Vector3(0.8f, 0.75f, 1);
     }
+
     void OnMouseUp()
     {
-
         CameraMovement.setstate = false;
         if (DataLoader.enableclick && !CameraMovement.movement)
         {
@@ -29,8 +27,10 @@ public class Map : MonoBehaviour
             CameraMovement.mcamera.StarPoint.transform.position = transform.position + new Vector3(0, 0, -0.2f);
             CameraMovement.mcamera.PopUpShow(map);
         }
+
         CameraMovement.movement = false;
     }
+
     /// <summary>
     /// set map info
     /// </summary>
@@ -60,7 +60,6 @@ public class Map : MonoBehaviour
         }
         else
         {
-
             render.sprite = DataLoader.Data.MapSprite[2];
             star[0].sprite = DataLoader.Data.MapSprite[4];
             star[1].sprite = DataLoader.Data.MapSprite[4];

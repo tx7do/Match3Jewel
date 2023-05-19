@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WinUI : MonoBehaviour {
-
+public class WinUI : MonoBehaviour
+{
     public GameObject[] Stargold;
 
     public UnityEngine.UI.Text Score;
@@ -17,9 +17,9 @@ public class WinUI : MonoBehaviour {
 
     void Start()
     {
-        TimeBonus.text = ((int)Mathf.Abs(Timer.timer.GameTime)).ToString();
+        TimeBonus.text = ((int) Mathf.Abs(Timer.timer.GameTime)).ToString();
 
-        playerScore = getGameScore(PLayerInfo.Info.Score,Timer.timer.GameTime);
+        playerScore = getGameScore(PLayerInfo.Info.Score, Timer.timer.GameTime);
 
         Score.text = playerScore.ToString();
 
@@ -30,7 +30,6 @@ public class WinUI : MonoBehaviour {
         StartCoroutine(StarAnimation(star));
 
         SaveData();
-
     }
 
     /// <summary>
@@ -44,7 +43,6 @@ public class WinUI : MonoBehaviour {
             PLayerInfo.MapPlayer.HightScore = score;
 
         return PLayerInfo.MapPlayer.HightScore;
-
     }
 
     /// <summary>
@@ -55,7 +53,7 @@ public class WinUI : MonoBehaviour {
     /// <returns>score when caculated</returns>
     int getGameScore(int playerscore, float gametime)
     {
-        return playerscore + (int)Mathf.Abs(gametime) * 500;
+        return playerscore + (int) Mathf.Abs(gametime) * 500;
     }
 
     /// <summary>
@@ -91,7 +89,7 @@ public class WinUI : MonoBehaviour {
     /// <returns></returns>
     IEnumerator StarAnimation(int star)
     {
-        for (int i = 0; i < star ; i++)
+        for (int i = 0; i < star; i++)
         {
             Stargold[i].SetActive(true);
             yield return new WaitForSeconds(0.7f);
@@ -107,11 +105,8 @@ public class WinUI : MonoBehaviour {
         int index = PLayerInfo.MapPlayer.Level - 1;
         DataLoader.MyData[index] = PLayerInfo.MapPlayer;
         if (PLayerInfo.MapPlayer.Level < 297)
-            DataLoader.MyData[index + 1].Locked = false;  
+            DataLoader.MyData[index + 1].Locked = false;
         PlayerUtils p = new PlayerUtils();
         p.Save(DataLoader.MyData);
     }
-
-
-
 }

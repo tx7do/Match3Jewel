@@ -3,8 +3,7 @@ using System.Collections;
 
 public class LoadWaiting : MonoBehaviour
 {
-
-    public UnityEngine.UI.Image loadbar;    // Image loading fake
+    public UnityEngine.UI.Image loadbar; // Image loading fake
 
     /// <summary>
     /// fill image by second and go to Home scene
@@ -17,6 +16,7 @@ public class LoadWaiting : MonoBehaviour
             loadbar.fillAmount += 1 / 120f;
             yield return new WaitForEndOfFrame();
         }
+
         Application.LoadLevel("HomeScene");
     }
 }

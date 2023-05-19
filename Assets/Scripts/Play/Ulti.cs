@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Ulti : MonoBehaviour
 {
-
     public static List<JewelObj> ListPlus(List<JewelObj> l1, List<JewelObj> l2, JewelObj bonus)
     {
         List<JewelObj> tmp = new List<JewelObj>();
@@ -12,6 +11,7 @@ public class Ulti : MonoBehaviour
         {
             tmp.Add(l1[i]);
         }
+
         if (bonus != null)
             tmp.Add(bonus);
 
@@ -75,6 +75,7 @@ public class Ulti : MonoBehaviour
         anim.Play("Moveto");
         Destroy(animclip, duration);
     }
+
     public static void MoveTo(GameObject obj, Vector2 startpos, Vector2 NewPos, float duration, float z)
     {
         Animation anim = obj.GetComponent<Animation>();
@@ -101,6 +102,7 @@ public class Ulti : MonoBehaviour
         anim.Play("Moveto");
         Destroy(animclip, duration);
     }
+
     public static IEnumerator IEDrop(GameObject obj, Vector2 NewPos, float speed)
     {
         JewelObj script = obj.GetComponent<JewelObj>();
@@ -115,6 +117,7 @@ public class Ulti : MonoBehaviour
                 _tranform.localPosition -= new Vector3(0, Time.smoothDeltaTime * speed);
                 yield return null;
             }
+
             if (_tranform != null)
             {
                 _tranform.localPosition = new Vector3(NewPos.x, NewPos.y);
@@ -130,5 +133,4 @@ public class Ulti : MonoBehaviour
             }
         }
     }
-
 }

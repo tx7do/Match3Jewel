@@ -3,9 +3,8 @@ using System.Collections;
 
 public class SoundMusicButtonControll : MonoBehaviour
 {
-
-    public UnityEngine.UI.Image Sound;      // button sound
-    public UnityEngine.UI.Image Music;      // button music
+    public UnityEngine.UI.Image Sound; // button sound
+    public UnityEngine.UI.Image Music; // button music
 
     void Start()
     {
@@ -59,6 +58,7 @@ public class SoundMusicButtonControll : MonoBehaviour
             Debug.Log("MUSIC ON");
             MusicController.Music.MusicON();
         }
+
         SoundController.Sound.Click();
     }
 
@@ -67,7 +67,6 @@ public class SoundMusicButtonControll : MonoBehaviour
     /// </summary>
     public void BSound()
     {
-
         if (PlayerPrefs.GetInt("SOUND", 0) != 1)
         {
             PlayerPrefs.SetInt("SOUND", 1);
@@ -80,6 +79,7 @@ public class SoundMusicButtonControll : MonoBehaviour
             Sound.overrideSprite = ButtonActionController.Click.ButtonSprite[2];
             SoundController.Sound.SoundON();
         }
+
         SoundController.Sound.Click();
     }
 }

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Timer : MonoBehaviour
 {
-
     public static Timer timer;
 
     //thay doi game time => thay doi timerbarprocess
@@ -51,6 +50,7 @@ public class Timer : MonoBehaviour
     {
         timer = this;
     }
+
     void Start()
     {
         _time = GameTime;
@@ -68,7 +68,6 @@ public class Timer : MonoBehaviour
         {
             update.enabled = false;
         }
-
     }
 
     void timebarprocess(float time)
@@ -85,21 +84,23 @@ public class Timer : MonoBehaviour
             startplus = true;
             StartCoroutine(IEScoreBarProcess());
         }
-
-
     }
+
     IEnumerator IEScoreBarProcess()
     {
-        while (ScoreStack > 0 && GameController.action.GameState == (int)GameState.PLAYING)
+        while (ScoreStack > 0 && GameController.action.GameState == (int) GameState.PLAYING)
         {
             ScoreStack -= 10;
             if (PLayerInfo.Info.Score + 10 < 5000 * PLayerInfo.MapPlayer.Level)
-            { PLayerInfo.Info.Score += 10; }
+            {
+                PLayerInfo.Info.Score += 10;
+            }
             else
             {
                 PLayerInfo.Info.Score = 5000 * PLayerInfo.MapPlayer.Level;
                 break;
             }
+
             float fillamount = PLayerInfo.Info.Score / (5000f * PLayerInfo.MapPlayer.Level);
             Timebar.fillAmount = fillamount;
             yield return null;
@@ -107,16 +108,17 @@ public class Timer : MonoBehaviour
 
         startplus = false;
     }
+
     public void Tick()
     {
-        if (GameTime > 0 && GameController.action.GameState == (int)GameState.PLAYING)
+        if (GameTime > 0 && GameController.action.GameState == (int) GameState.PLAYING)
         {
             GameTime -= Time.deltaTime;
             timebarprocess(GameTime);
         }
-        else if (GameController.action.GameState == (int)GameState.PLAYING)
+        else if (GameController.action.GameState == (int) GameState.PLAYING)
         {
-            GameController.action.GameState = (int)GameState.LOST;
+            GameController.action.GameState = (int) GameState.LOST;
             GameTime = 0;
             Lost();
             update.enabled = false;
@@ -125,14 +127,15 @@ public class Timer : MonoBehaviour
 
     public void Win()
     {
-        GameController.action.GameState = (int)GameState.WIN;
+        GameController.action.GameState = (int) GameState.WIN;
         NoSelect.SetActive(true);
         StartCoroutine(IEWin());
         Debug.Log("WIN");
     }
+
     public void Lost()
     {
-        GameController.action.GameState = (int)GameState.LOST;
+        GameController.action.GameState = (int) GameState.LOST;
         NoSelect.SetActive(true);
         EffectSpawner.effect.SetScore(PLayerInfo.Info.Score);
         StartCoroutine(DisableAll());
@@ -140,29 +143,31 @@ public class Timer : MonoBehaviour
         showFullAds();
         Debug.Log("LOSE");
     }
+
     public void Pause()
     {
         SoundController.Sound.Click();
-        if (GameController.action.GameState == (int)GameState.PLAYING)
+        if (GameController.action.GameState == (int) GameState.PLAYING)
         {
-            GameController.action.GameState = (int)GameState.PAUSE;
+            GameController.action.GameState = (int) GameState.PAUSE;
             NoSelect.SetActive(true);
             PauseUI.SetActive(true);
             Time.timeScale = 0;
         }
-
     }
+
     public void Resume()
     {
         SoundController.Sound.Click();
-        if (GameController.action.GameState == (int)GameState.PAUSE)
+        if (GameController.action.GameState == (int) GameState.PAUSE)
         {
-            GameController.action.GameState = (int)GameState.PLAYING;
+            GameController.action.GameState = (int) GameState.PLAYING;
             Time.timeScale = 1;
             NoSelect.SetActive(false);
             PauseUI.SetActive(false);
         }
     }
+
     public void Restart()
     {
         if (PLayerInfo.MODE == 1)
@@ -175,10 +180,12 @@ public class Timer : MonoBehaviour
             ButtonActionController.Click.ClassicScene(1);
         }
     }
+
     public void Home()
     {
         ButtonActionController.Click.SelectMap(PLayerInfo.MODE);
     }
+
     public void Next()
     {
         ButtonActionController.Click.SelectMap(1);
@@ -192,23 +199,25 @@ public class Timer : MonoBehaviour
     {
         ButtonActionController.Click.BMusic(button);
     }
+
     public void Sound(UnityEngine.UI.Button button)
     {
-
     }
+
     public void ClassicLvUp()
     {
-        GameController.action.GameState = (int)GameState.WIN;
+        GameController.action.GameState = (int) GameState.WIN;
         NoSelect.SetActive(true);
         StartCoroutine(UpLevel());
-
     }
+
     IEnumerator DisableAll()
     {
         DisableJewel(false);
         yield return new WaitForSeconds(0.75f);
         LoseUI.SetActive(true);
     }
+
     IEnumerator IEWin()
     {
         DisableJewel(true);
@@ -251,7 +260,8 @@ public class Timer : MonoBehaviour
                 }
                 else
                 {
-                    if (JewelSpawner.spawn.JewelGribScript[x, y] != null && JewelSpawner.spawn.JewelGribScript[x, y] != GameController.action.JewelStar)
+                    if (JewelSpawner.spawn.JewelGribScript[x, y] != null && JewelSpawner.spawn.JewelGribScript[x, y] !=
+                        GameController.action.JewelStar)
                         JewelSpawner.spawn.JewelGribScript[x, y].JewelDisable();
                 }
             }

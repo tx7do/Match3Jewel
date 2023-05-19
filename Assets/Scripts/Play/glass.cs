@@ -3,7 +3,6 @@ using System.Collections;
 
 public class glass : MonoBehaviour
 {
-
     public Animator amin;
 
     /// <summary>
